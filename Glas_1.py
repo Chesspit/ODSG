@@ -16,11 +16,13 @@ df=df.drop(df.columns[3:8], axis=1)
 
 
 df = df.drop(df[df['Abfallfraktion'] != 'Glas'].index)
-df[['year', 'month']] = df['Monat_Jahr'].str.split('-', expand=True).astype(int)
-df.drop(columns=['Monat_Jahr'], inplace=True)
+# df[['year', 'month']] = df['Monat_Jahr'].str.split('-', expand=True).astype(int)
+# df.drop(columns=['Monat_Jahr'], inplace=True)
 df = df.reset_index(drop=True)
 
 print(df.head())
+
+fig = px.line(df, x="Monat_Jahr", y="Gewicht in t")
 
 app.layout = dbc.Container([
     dbc.Row([
@@ -34,7 +36,7 @@ app.layout = dbc.Container([
             dbc.Card(
                 dbc.CardBody("This is some other text within a card body"), className="mb-3",
             ),
-            dcc.Graph()
+            dcc.Graph(figure=fig)
             ], width = 8
         )
     ])
